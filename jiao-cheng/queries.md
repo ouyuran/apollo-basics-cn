@@ -1,9 +1,11 @@
 ---
-title: "6. Fetch data with queries"
+title: 6. Fetch data with queries
 description: Learn how to fetch data with the useQuery hook
 ---
 
- Time to accomplish: _15 Minutes_
+# 使用query获取数据
+
+Time to accomplish: _15 Minutes_
 
 Apollo Client simplifies fetching data from a graph API because it intelligently caches your data, as well as tracks loading and error state. In the previous section, we learned how to fetch a sample query with Apollo Client without using a view integration. In this section, we'll learn how to use the `useQuery` hook from `@apollo/react-hooks` to fetch more complex queries and execute features like pagination.
 
@@ -21,7 +23,7 @@ First, we're going to build a GraphQL query that fetches a list of launches. We'
 
 _src/pages/launches.js_
 
-```js
+```javascript
 import React, { Fragment } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -211,7 +213,7 @@ To learn how to build a fragment, navigate to `src/pages/launches.js` and copy t
 
 _`src/pages/launches.js`_
 
-```js
+```javascript
 export const LAUNCH_TILE_DATA = gql`
   fragment LaunchTile on Launch {
     id
@@ -228,13 +230,13 @@ export const LAUNCH_TILE_DATA = gql`
 `;
 ```
 
-We define a GraphQL fragment by giving it a name (`LaunchTile`) and defining it on a type on our schema (`Launch`). The name we give our fragment can be anything, but the type must correspond to a type in our schema.
+We define a GraphQL fragment by giving it a name \(`LaunchTile`\) and defining it on a type on our schema \(`Launch`\). The name we give our fragment can be anything, but the type must correspond to a type in our schema.
 
 To use our fragment in our query, we import it into the GraphQL document and use the spread operator to spread the fields into our query:
 
 _`src/pages/launches.js`_
 
-```js{6,10}
+```text
 const GET_LAUNCHES = gql`
   query launchList($after: String) {
     launches(after: $after) {
@@ -253,7 +255,7 @@ Let's use our fragment in our launch detail query too. Be sure to import the fra
 
 _src/pages/launch.js_
 
-```js{1,10,13}
+```text
 import { LAUNCH_TILE_DATA } from './launches';
 
 export const GET_LAUNCH_DETAILS = gql`
@@ -280,7 +282,7 @@ First, let's navigate to `src/pages/profile.js` and write our query:
 
 _src/pages/profile.js_
 
-```js
+```javascript
 import React, { Fragment } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -334,3 +336,4 @@ export default function Profile() {
 If you try to render this query, you'll notice that it returns null. This is because we need to implement our login feature first. We're going to tackle login in the next section.
 
 Now that we've learned how to leverage `useQuery` to build components that can fetch a paginated list, share fragments, and customize the fetch policy, it's time to progress to the next section so we can learn how to update data with mutations!
+

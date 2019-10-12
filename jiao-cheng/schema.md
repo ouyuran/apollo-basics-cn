@@ -1,7 +1,9 @@
 ---
-title: '1. Build a schema'
+title: 1. Build a schema
 description: Create a blueprint for your graph's data
 ---
+
+# 构建schema
 
 The first step on our journey toward building our graph API is constructing its **schema**. You can think of a schema as a blueprint for all of the data you can access in your graph. Throughout this section, you'll learn how to build and explore your graph's schema with Apollo.
 
@@ -19,7 +21,7 @@ The two packages you need to get started with Apollo Server are `apollo-server` 
 
 _src/index.js_
 
-```js
+```javascript
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 
@@ -38,17 +40,17 @@ Schemas are at their best when they are designed around the needs of the clients
 
 Let's think about the data we will need to expose in order to build our app. Our app needs to:
 
-- Fetch all upcoming rocket launches
-- Fetch a specific launch by its ID
-- Login the user
-- Book launch trips if the user is logged in
-- Cancel launch trips if the user is logged in
+* Fetch all upcoming rocket launches
+* Fetch a specific launch by its ID
+* Login the user
+* Book launch trips if the user is logged in
+* Cancel launch trips if the user is logged in
 
-Our schema will be based on these features. In `src/schema.js`, import `gql` from Apollo Server and create a variable called `typeDefs` for your schema. Your schema will go inside the `gql` function (between the backticks in this portion: <code>gql\`\`</code>).
+Our schema will be based on these features. In `src/schema.js`, import `gql` from Apollo Server and create a variable called `typeDefs` for your schema. Your schema will go inside the `gql` function \(between the backticks in this portion: ```gql`````\).
 
 _src/schema.js_
 
-```js
+```javascript
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
@@ -62,7 +64,7 @@ module.exports = typeDefs;
 
 We'll start with the **Query type**, which is the entry point into our schema that describes what data we can fetch.
 
-The language we use to write our schema is GraphQL's schema definition language (SDL). If you've used TypeScript before, the syntax will look familiar. Copy the following SDL code between the backticks where the `gql` function is invoked in  `src/schema.js`
+The language we use to write our schema is GraphQL's schema definition language \(SDL\). If you've used TypeScript before, the syntax will look familiar. Copy the following SDL code between the backticks where the `gql` function is invoked in `src/schema.js`
 
 _src/schema.js_
 
@@ -81,7 +83,7 @@ How do we define what properties are exposed by `Launch` and `User`? For these t
 
 ### Object & scalar types
 
-Let's define what the structure of `Launch` looks like by creating an **object type**.  Once again, copy the following SDL code inside the backticks where the `gql` function is invoked within  `src/schema.js`:
+Let's define what the structure of `Launch` looks like by creating an **object type**. Once again, copy the following SDL code inside the backticks where the `gql` function is invoked within `src/schema.js`:
 
 _src/schema.js_
 
@@ -167,7 +169,7 @@ Now that we have scoped out our app's schema, let's run the server by calling `s
 
 _src/index.js_
 
-```js
+```javascript
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 
@@ -186,14 +188,11 @@ By default, Apollo Server supports [GraphQL Playground](https://www.apollographq
 
 The GraphQL Playground provides the ability to introspect your schema. **Introspection** is a technique used to provide detailed information about a graph's schema. To see this in action, check out the right hand side of GraphQL Playground and click on the `schema` button.
 
-<div style="text-align:center">
-  <img src="../images/schematab.png" alt="Schema button">
-</div>
+![Schema button](https://github.com/ouyuran/apollo-basics-cn/tree/765d49cc2962eed99f85fb41f29a3406d66707ca/images/schematab.png)
 
 You can quickly have access to the documentation of a GraphQL API via the `schema` button.
 
-<div style="text-align:center">
-  <img src="../images/moredetailsonatype.png" alt="More details on a Schema Type">
-</div>
+![More details on a Schema Type](https://github.com/ouyuran/apollo-basics-cn/tree/765d49cc2962eed99f85fb41f29a3406d66707ca/images/moredetailsonatype.png)
 
 That's all for building our schema. Let's move on to the next part of our tutorial.
+

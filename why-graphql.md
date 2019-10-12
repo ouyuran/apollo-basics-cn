@@ -3,13 +3,15 @@ title: Why GraphQL?
 description: Why adopting GraphQL and Apollo will help you ship features faster
 ---
 
+# 为什么使用GraphQL
+
 Managing data in modern applications can present a number of challenges. Developers have to aggregate data from multiple sources, distribute it upon multiple platforms, and plumb it into an app's UI. On top of that, front-end developers have to decide how to manage state on the client, all while executing complicated features such as caching and optimistic UI.
 
 Adopting GraphQL in your organization will ease these pain points considerably. Read on to learn how GraphQL's declarative approach to data fetching will simplify data transformation and speed up your API. You'll also learn how the Apollo platform enables faster development cycles thanks to its advanced ecosystem of tooling and excellent developer experience.
 
 ## Developer experience
 
-Implementing GraphQL in your organization via the Apollo platform can help you ship features faster due to its excellent developer experience. Our #1 goal is to simplify data management across the stack. Features that are normally difficult to execute, such as fullstack caching, data normalization, and optimistic UI suddenly become trivial thanks to Apollo Client, Apollo Server, and Apollo Graph Manager. Let's learn how!
+Implementing GraphQL in your organization via the Apollo platform can help you ship features faster due to its excellent developer experience. Our \#1 goal is to simplify data management across the stack. Features that are normally difficult to execute, such as fullstack caching, data normalization, and optimistic UI suddenly become trivial thanks to Apollo Client, Apollo Server, and Apollo Graph Manager. Let's learn how!
 
 ### Explore your API
 
@@ -19,7 +21,7 @@ GraphQL's strongly typed query language enables developers to take advantage of 
 
 [GraphQL Playground](https://github.com/prismagraphql/graphql-playground) by Prisma is an excellent IDE featuring automatically generated docs for your schema and query execution with autocomplete. At a glance, you can see all the data available in your GraphQL API without diving into the backend code or knowing what source it came from.
 
-![GraphQL Playground](../assets/graphql-playground.png)
+![GraphQL Playground](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/graphql-playground.png)
 
 Apollo Server 2+ sets up GraphQL Playground out of the box, so you can start exploring your schema and executing queries immediately.
 
@@ -27,13 +29,13 @@ Apollo Server 2+ sets up GraphQL Playground out of the box, so you can start exp
 
 Apollo DevTools is a Chrome extension that allows you to inspect your Apollo Client cache, track active queries, and view mutations. You also have access to GraphiQL within Apollo DevTools which is convenient for testing queries as you're working on front-end code with Apollo Client.
 
-![Apollo DevTools](../assets/dev-tools.png)
+![Apollo DevTools](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/dev-tools.png)
 
 ### Simplify front-end code
 
 If you've worked with REST and a state management library like Redux, you're probably used to writing action creators, reducers, normalizing your data, and integrating middleware to make a single network request. With Apollo Client, you no longer have to worry about any of these concerns! Apollo Client sets up everything you need for a production-ready app so you can focus on writing queries instead of thousands of lines of state management code.
 
-```js
+```javascript
 import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
@@ -49,7 +51,7 @@ Developing your GraphQL API with the Apollo platform gives teams access to moder
 
 [Apollo Graph Manager](https://engine.apollographql.com/login) is the only tool in the GraphQL ecosystem that can provide monitoring and analytics for your API. Graph Manager displays per-resolver tracing metrics that help you pinpoint bugs, as well as performance distribution for every field in your schema. You can also pipe this data to services you're probably already using like DataDog, and set up Slack alerts if these numbers pass a certain threshold.
 
-![Apollo Graph Manager](../assets/engine.png)
+![Apollo Graph Manager](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/engine.png)
 
 ## Declarative data fetching
 
@@ -148,9 +150,10 @@ At Apollo, we found GraphQL to be an excellent solution to many of the problems 
 
 In addition to our own experience, we have received extensive feedback, contributions and support from enterprise customers who are actively using Apollo GraphQL in production. A few of our most public and notable case-studies are:
 
-- [**The New York Times**](https://open.nytimes.com/the-new-york-times-now-on-apollo-b9a78a5038c): Learn how The New York Times switched from Relay to Apollo & implemented features in their app such as SSR and persisted queries.
-- [**Airbnb**](https://medium.com/airbnb-engineering/reconciling-graphql-and-thrift-at-airbnb-a97e8d290712): Airbnb is betting big on the Apollo platform to power the data layer for their microservices.
-- [**Express**](https://dev-blog.apollodata.com/changing-the-architecture-of-express-com-23c950d43323): Easy-to-use pagination with Apollo helped improve the Express eCommerce team's key product pages.
-- [**Major League Soccer**](https://dev-blog.apollodata.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a): MLS' switch from Redux to Apollo for state management enabled them to delete nearly all of their Redux code.
-- [**Expo**](https://dev-blog.apollodata.com/using-graphql-apollo-at-expo-4c1f21f0f115): Developing their React Native app with Apollo allowed the Expo engineers to focus on improving their product instead of writing data fetching logic.
-- [**KLM**](https://youtu.be/T2njjXHdKqw): Learn how the KLM team scaled their Angular app with GraphQL and Apollo.
+* [**The New York Times**](https://open.nytimes.com/the-new-york-times-now-on-apollo-b9a78a5038c): Learn how The New York Times switched from Relay to Apollo & implemented features in their app such as SSR and persisted queries.
+* [**Airbnb**](https://medium.com/airbnb-engineering/reconciling-graphql-and-thrift-at-airbnb-a97e8d290712): Airbnb is betting big on the Apollo platform to power the data layer for their microservices.
+* [**Express**](https://dev-blog.apollodata.com/changing-the-architecture-of-express-com-23c950d43323): Easy-to-use pagination with Apollo helped improve the Express eCommerce team's key product pages.
+* [**Major League Soccer**](https://dev-blog.apollodata.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a): MLS' switch from Redux to Apollo for state management enabled them to delete nearly all of their Redux code.
+* [**Expo**](https://dev-blog.apollodata.com/using-graphql-apollo-at-expo-4c1f21f0f115): Developing their React Native app with Apollo allowed the Expo engineers to focus on improving their product instead of writing data fetching logic.
+* [**KLM**](https://youtu.be/T2njjXHdKqw): Learn how the KLM team scaled their Angular app with GraphQL and Apollo.
+

@@ -1,7 +1,9 @@
 ---
-title: '2. Hook up your data sources'
+title: 2. Hook up your data sources
 description: Connect REST and SQL data to your graph
 ---
+
+# 连接数据源
 
 Time to accomplish: _10 Minutes_
 
@@ -25,7 +27,7 @@ In our example, the `baseURL` for our API is `https://api.spacexdata.com/v2/`. L
 
 _src/datasources/launch.js_
 
-```js
+```javascript
 const { RESTDataSource } = require('apollo-datasource-rest');
 
 class LaunchAPI extends RESTDataSource {
@@ -46,7 +48,7 @@ The next step is to add methods to the `LaunchAPI` data source that correspond t
 
 _src/datasources/launch.js_
 
-```js
+```javascript
 async getAllLaunches() {
   const response = await this.get('launches');
   return Array.isArray(response)
@@ -75,7 +77,7 @@ Next, let's write a `launchReducer` function to transform the data into that sha
 
 _src/datasources/launch.js_
 
-```js
+```javascript
 launchReducer(launch) {
   return {
     id: launch.flight_number || 0,
@@ -101,7 +103,7 @@ Next, let's take care of fetching a specific launch by its ID. Let's add two met
 
 _src/datasources/launch.js_
 
-```js
+```javascript
 async getLaunchById({ launchId }) {
   const response = await this.get('launches', { flight_number: launchId });
   return this.launchReducer(response[0]);
@@ -124,21 +126,21 @@ Our REST API is read-only, so we need to connect our graph API to a database for
 
 ### Build a custom data source
 
-Apollo doesn't have support for a SQL data source yet (although we'd love to help guide you if you're interested in contributing), so we will need to create a custom data source for our database by extending the generic Apollo data source class. You can create your own with the `apollo-datasource` package.
+Apollo doesn't have support for a SQL data source yet \(although we'd love to help guide you if you're interested in contributing\), so we will need to create a custom data source for our database by extending the generic Apollo data source class. You can create your own with the `apollo-datasource` package.
 
 Here are some of the core concepts for creating your own data source:
 
-- The `initialize` method: You'll need to implement this method if you want to pass in any configuration options to your class. Here, we're using this method to access our graph API's context.
-- `this.context`: A graph API's context is an object that's shared among every resolver in a GraphQL request. We're going to explain this in more detail in the next section. Right now, all you need to know is that the context is useful for storing user information.
-- Caching: While the REST data source comes with its own built in cache, the generic data source does not. You can use [our cache primitives](https://www.apollographql.com/docs/apollo-server/features/data-sources/#using-memcached-redis-as-a-cache-storage-backend) to build your own, however!
+* The `initialize` method: You'll need to implement this method if you want to pass in any configuration options to your class. Here, we're using this method to access our graph API's context.
+* `this.context`: A graph API's context is an object that's shared among every resolver in a GraphQL request. We're going to explain this in more detail in the next section. Right now, all you need to know is that the context is useful for storing user information.
+* Caching: While the REST data source comes with its own built in cache, the generic data source does not. You can use [our cache primitives](https://www.apollographql.com/docs/apollo-server/features/data-sources/#using-memcached-redis-as-a-cache-storage-backend) to build your own, however!
 
 Let's go over some of the methods we created in `src/datasources/user.js` to fetch and update data in our database. You will want to reference these in the next section:
 
-- `findOrCreateUser({ email })`: Finds or creates a user with a given `email` in the database
-- `bookTrips({ launchIds })`: Takes an object with an array of `launchIds` and books them for the logged in user
-- `cancelTrip({ launchId })`: Takes an object with a `launchId` and cancels that launch for the logged in user
-- `getLaunchIdsByUser()`: Returns all booked launches for the logged in user
-- `isBookedOnLaunch({ launchId })`: Determines whether the logged in user booked a certain launch
+* `findOrCreateUser({ email })`: Finds or creates a user with a given `email` in the database
+* `bookTrips({ launchIds })`: Takes an object with an array of `launchIds` and books them for the logged in user
+* `cancelTrip({ launchId })`: Takes an object with a `launchId` and cancels that launch for the logged in user
+* `getLaunchIdsByUser()`: Returns all booked launches for the logged in user
+* `isBookedOnLaunch({ launchId })`: Determines whether the logged in user booked a certain launch
 
 ## Add data sources to Apollo Server
 
@@ -148,7 +150,7 @@ Adding our data sources is simple. Just create a `dataSources` property on your 
 
 _src/index.js_
 
-```js{3,5,6,8,12-15}
+```text
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 const { createStore } = require('./utils');
@@ -173,6 +175,7 @@ server.listen().then(({ url }) => {
 
 First, we import our `createStore` function to set up our database, as well as our data sources: `LaunchAPI` and `UserAPI`. Then, we create our database by calling `createStore`. Finally, we add the `dataSources` function to our `ApolloServer` to connect `LaunchAPI` and `UserAPI` to our graph. We also pass in our database we created to the `UserAPI` data source.
 
-If you use `this.context` in your datasource, it's critical to create a new instance in the `dataSources` function and to not share a single instance. Otherwise, `initialize` may be called during the execution of asynchronous code for a specific user, and replace the  `this.context` by the context of another user.
+If you use `this.context` in your datasource, it's critical to create a new instance in the `dataSources` function and to not share a single instance. Otherwise, `initialize` may be called during the execution of asynchronous code for a specific user, and replace the `this.context` by the context of another user.
 
 Now that we've hooked up our data sources to Apollo Server, it's time to move on to the next section and learn how to call our data sources from within our resolvers.
+

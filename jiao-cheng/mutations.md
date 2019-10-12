@@ -1,7 +1,9 @@
 ---
-title: '7. Update data with mutations'
+title: 7. Update data with mutations
 description: Learn how to update data with the useMutation hook
 ---
+
+# 使用mutation更新数据
 
 Time to accomplish: _12 Minutes_
 
@@ -19,7 +21,7 @@ The first step is defining our GraphQL mutation. To start, navigate to `src/page
 
 _src/pages/login.js_
 
-```js
+```javascript
 import React from 'react';
 import { useApolloClient, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -44,7 +46,7 @@ export default function Login() {
 }
 ```
 
-Our `useMutation` hook returns a mutate function (`login`) and the data object returned from the mutation that we destructure from the tuple. Finally, we pass our login function to the `LoginForm` component.
+Our `useMutation` hook returns a mutate function \(`login`\) and the data object returned from the mutation that we destructure from the tuple. Finally, we pass our login function to the `LoginForm` component.
 
 To create a better experience for our users, we want to persist the login between sessions. In order to do that, we need to save our login token to `localStorage`. Let's learn how we can use the `onCompleted` handler of `useMutation` to persist our login:
 
@@ -58,7 +60,7 @@ In our `onCompleted` handler, we also call `client.writeData` to write local dat
 
 _src/pages/login.js_
 
-```jsx{2,6-9}
+```text
 export default function Login() {
   const client = useApolloClient();
   const [login, { loading, error }] = useMutation(
@@ -84,7 +86,7 @@ We're almost done completing our login feature! Before we do, we need to attach 
 
 _src/index.js_
 
-```js
+```javascript
 const client = new ApolloClient({
   cache,
   link: new HttpLink({
@@ -106,3 +108,4 @@ cache.writeData({
 Specifying the `headers` option on `HttpLink` allows us to read the token from `localStorage` and attach it to the request's headers each time a GraphQL operation is made.
 
 In the next section, we'll add the `<Login>` form to the user interface. For that, we need to learn how Apollo allows us to manage local state in our app.
+

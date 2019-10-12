@@ -1,7 +1,9 @@
 ---
-title: "5. Connect your API to a client"
+title: 5. Connect your API to a client
 description: Hook up your graph to Apollo Client
 ---
+
+# 连接API到client
 
 Time to accomplish: _10 Minutes_
 
@@ -19,23 +21,23 @@ cd start/client && npm install
 
 Now, our dependencies are installed. Here are the packages we will be using to build out our frontend:
 
-- `apollo-client`: A complete data management solution with an intelligent cache. In this tutorial, we will be using the Apollo Client 3.0 preview since it includes local state management capabilities and sets your cache up for you.
-- `react-apollo`: The view layer integration for React that exports components such as `Query` and `Mutation`
-- `graphql-tag`: The tag function `gql` that we use to wrap our query strings in order to parse them into an AST
+* `apollo-client`: A complete data management solution with an intelligent cache. In this tutorial, we will be using the Apollo Client 3.0 preview since it includes local state management capabilities and sets your cache up for you.
+* `react-apollo`: The view layer integration for React that exports components such as `Query` and `Mutation`
+* `graphql-tag`: The tag function `gql` that we use to wrap our query strings in order to parse them into an AST
 
 ### Configure Apollo VSCode
 
 While Apollo VSCode is not required to successfully complete the tutorial, setting it up unlocks a lot of helpful features such as autocomplete for operations, jump to fragment definitions, and more.
 
-First, make a copy of the `.env.example` file located in `client/` and call it `.env`. Add your Graph Manager API key that you already created in step #4 to the file:
+First, make a copy of the `.env.example` file located in `client/` and call it `.env`. Add your Graph Manager API key that you already created in step \#4 to the file:
 
-```
+```text
 ENGINE_API_KEY=service:<your-service-name>:<hash-from-apollo-engine>
 ```
 
 The entry should basically look something like this:
 
-```
+```text
 ENGINE_API_KEY=service:my-service-439:E4VSTiXeFWaSSBgFWXOiSA
 ```
 
@@ -43,7 +45,7 @@ Our key is now stored under the environment variable `ENGINE_API_KEY`. Apollo VS
 
 Next, create an Apollo config file called `apollo.config.js`. This config file is how you configure both the Apollo VSCode extension and CLI. Paste the snippet below into the file:
 
-```js
+```javascript
 module.exports = {
   client: {
     name: 'Space Explorer [web]',
@@ -64,7 +66,7 @@ If you didn't complete the server portion, you can use the `uri` from the code b
 
 _src/index.js_
 
-```js
+```javascript
 import { ApolloClient } from 'apollo-client';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
@@ -90,7 +92,7 @@ With a `client.query()` call, we can query our graph's API. Add the following li
 
 _src/index.js_
 
-```js
+```javascript
 import gql from "graphql-tag"; // highlight-line
 ```
 
@@ -98,7 +100,7 @@ And add this code to the bottom of `index.js`:
 
 _src/index.js_
 
-```js
+```javascript
 // ... above is the instantiation of the client object.
 client
   .query({
@@ -148,3 +150,4 @@ ReactDOM.render(
 ```
 
 Now, we're ready to start building our first component with the `useQuery` hook in the next section.
+

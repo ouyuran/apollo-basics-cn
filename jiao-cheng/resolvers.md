@@ -1,7 +1,9 @@
 ---
-title: "3. Write your graph's resolvers"
+title: 3. Write your graph's resolvers
 description: Learn how a GraphQL query fetches data
 ---
+
+# 编写graph resolver
 
 Time to accomplish: _15 Minutes_
 
@@ -9,18 +11,18 @@ Up until now, our graph API hasn't been very useful. We can inspect our graph's 
 
 ## What is a resolver?
 
-**Resolvers** provide the instructions for turning a GraphQL operation (a query, mutation, or subscription) into data. They either return the same type of data we specify in our schema or a promise for that data.
+**Resolvers** provide the instructions for turning a GraphQL operation \(a query, mutation, or subscription\) into data. They either return the same type of data we specify in our schema or a promise for that data.
 
 Before we can start writing resolvers, we need to learn more about what a resolver function looks like. Resolver functions accept four arguments:
 
-```js
+```javascript
 fieldName: (parent, args, context, info) => data;
 ```
 
-- **parent**: An object that contains the result returned from the resolver on the parent type
-- **args**: An object that contains the arguments passed to the field
-- **context**: An object shared by all resolvers in a GraphQL operation. We use the context to contain per-request state such as authentication information and access our data sources.
-- **info**: Information about the execution state of the operation which should only be used in advanced cases
+* **parent**: An object that contains the result returned from the resolver on the parent type
+* **args**: An object that contains the arguments passed to the field
+* **context**: An object shared by all resolvers in a GraphQL operation. We use the context to contain per-request state such as authentication information and access our data sources.
+* **info**: Information about the execution state of the operation which should only be used in advanced cases
 
 Remember the `LaunchAPI` and `UserAPI` data sources we created in the previous section and passed to the `context` property of `ApolloServer`? We're going to call them in our resolvers by accessing the `context` argument.
 
@@ -31,7 +33,8 @@ This might sound confusing at first, but it will start to make more sense once w
 First, let's connect our resolver map to Apollo Server. Right now, it's just an empty object, but we should add it to our `ApolloServer` instance so we don't have to do it later. Navigate to `src/index.js` and add the following code to the file:
 
 _src/index.js_
-```js
+
+```javascript
 const { ApolloServer } = require('apollo-server');
 const typeDefs = require('./schema');
 const { createStore } = require('./utils');
@@ -66,7 +69,7 @@ Navigate to `src/resolvers.js` and paste the code below into the file:
 
 _src/resolvers.js_
 
-```js
+```javascript
 module.exports = {
   Query: {
     launches: (_, __, { dataSources }) =>
@@ -99,7 +102,7 @@ query GetLaunches {
 }
 ```
 
-When you write a GraphQL query, you always want to start with the **operation keyword** (either query or mutation) and its name (like `GetLaunches`). It's important to give your queries descriptive names so they're discoverable in Apollo developer tooling. Next, we use a pair of curly braces after the query name to indicate the body of our query. We specify the `launches` field on the `Query` type and use another pair of curly braces to indicate a **selection set**. The selection set describes which fields we want our query response to contain.
+When you write a GraphQL query, you always want to start with the **operation keyword** \(either query or mutation\) and its name \(like `GetLaunches`\). It's important to give your queries descriptive names so they're discoverable in Apollo developer tooling. Next, we use a pair of curly braces after the query name to indicate the body of our query. We specify the `launches` field on the `Query` type and use another pair of curly braces to indicate a **selection set**. The selection set describes which fields we want our query response to contain.
 
 What's awesome about GraphQL is that the shape of your query will match the shape of your response. Try adding and removing fields from your query and notice how the response shape changes.
 
@@ -137,7 +140,7 @@ You can paste `{ "id": 60 }` into the Query Variables section below before runni
 
 Running the `launches` query returned a large data set of launches, which can slow down our app. How can we ensure we're not fetching too much data at once?
 
-**Pagination** is a solution to this problem that ensures that the server only sends data in small chunks. Cursor-based pagination is our recommended approach over numbered pages, because it eliminates the possibility of skipping items and displaying the same item more than once. In cursor-based pagination, a constant pointer (or **cursor**) is used to keep track of where in the data set the next items should be fetched from.
+**Pagination** is a solution to this problem that ensures that the server only sends data in small chunks. Cursor-based pagination is our recommended approach over numbered pages, because it eliminates the possibility of skipping items and displaying the same item more than once. In cursor-based pagination, a constant pointer \(or **cursor**\) is used to keep track of where in the data set the next items should be fetched from.
 
 We'll use cursor-based pagination for our graph API. Open up the `src/schema.js` file and update the `Query` type with `launches` and also add a new type called `LaunchConnection` to the schema as shown below:
 
@@ -172,7 +175,7 @@ type LaunchConnection { # add this below the Query type as an additional type.
 ...
 ```
 
-You'll also notice we've added comments (also called docstrings) to our schema, indicated by `"""`. Now, the `launches` query takes in two parameters, `pageSize` and `after`, and returns a `LaunchConnection`. The `LaunchConnection` type returns a result that shows the list of launches, in addition to a `cursor` field that keeps track of where we are in the list and a `hasMore` field to indicate if there's more data to be fetched.
+You'll also notice we've added comments \(also called docstrings\) to our schema, indicated by `"""`. Now, the `launches` query takes in two parameters, `pageSize` and `after`, and returns a `LaunchConnection`. The `LaunchConnection` type returns a result that shows the list of launches, in addition to a `cursor` field that keeps track of where we are in the list and a `hasMore` field to indicate if there's more data to be fetched.
 
 Open up the `src/utils.js` file in the repo you cloned in the previous section and check out the `paginateResults` function. The `paginateResults` function in the file is a helper function for paginating data from the server. Now, let's update the necessary resolver functions to accommodate pagination.
 
@@ -180,7 +183,7 @@ Let's import `paginateResults` and replace the `launches` resolver function in t
 
 _src/resolvers.js_
 
-```js{1,5-26}
+```text
 const { paginateResults } = require('./utils');
 
 module.exports = {
@@ -242,7 +245,7 @@ Let's look at a case where we do want to write a resolver on our `Mission` type.
 
 _src/resolvers.js_
 
-```js
+```javascript
 Mission: {
   // make sure the default size is 'large' in case user doesn't specify
   missionPatch: (mission, { size } = { size: 'LARGE' }) => {
@@ -254,7 +257,8 @@ Mission: {
 ```
 
 _src/schema.js_
-```js
+
+```javascript
   type Mission {
     # ... with rest of schema
     missionPatch(mission: String, size: PatchSize): String
@@ -267,7 +271,7 @@ Now that we know how to add resolvers on types other than `Query` and `Mission`,
 
 _src/resolvers.js_
 
-```js
+```javascript
 Launch: {
   isBooked: async (launch, _, { dataSources }) =>
     dataSources.userAPI.isBookedOnLaunch({ launchId: launch.id }),
@@ -298,14 +302,14 @@ Access control is a feature that almost every app will have to handle at some po
 Here are the steps you'll want to follow:
 
 1. The context function on your `ApolloServer` instance is called with the request object each time a GraphQL operation hits your API. Use this request object to read the authorization headers.
-1. Authenticate the user within the context function.
-1. Once the user is authenticated, attach the user to the object returned from the context function. This allows us to read the user's information from within our data sources and resolvers, so we can authorize whether they can access the data.
+2. Authenticate the user within the context function.
+3. Once the user is authenticated, attach the user to the object returned from the context function. This allows us to read the user's information from within our data sources and resolvers, so we can authorize whether they can access the data.
 
 Let's open up `src/index.js` and update the `context` function on `ApolloServer` to the code shown below:
 
 _src/index.js_
 
-```js{1,4,8,10}
+```text
 const isEmail = require('isemail');
 
 const server = new ApolloServer({
@@ -335,7 +339,7 @@ Writing `Mutation` resolvers is similar to the resolvers we've already written. 
 
 _src/resolvers.js_
 
-```js
+```javascript
 Mutation: {
   login: async (_, { email }, { dataSources }) => {
     const user = await dataSources.userAPI.findOrCreateUser({ email });
@@ -350,7 +354,7 @@ Now, let's add the resolvers for `bookTrips` and `cancelTrip` to `Mutation`:
 
 _src/resolvers.js_
 
-```js
+```javascript
 Mutation: {
   bookTrips: async (_, { launchIds }, { dataSources }) => {
     const results = await dataSources.userAPI.bookTrips({ launchIds });
@@ -420,10 +424,11 @@ mutation BookTrips {
 
 Next, paste our authorization header into the HTTP Headers box at the bottom:
 
-```json
+```javascript
 {
   "authorization": "ZGFpc3lAYXBvbGxvZ3JhcGhxbC5jb20="
 }
 ```
 
 Then, run the mutation. You should see a success message, along with the ids of the mutations we just booked. Testing mutations manually in the playground is a good way to explore our API, but in a real-world application, we should run automated tests so we can safely refactor our code. In the next section, you'll actually learn about running your graph in production instead of testing your graph.
+

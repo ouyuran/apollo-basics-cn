@@ -1,7 +1,9 @@
 ---
-title: '8. Manage local state'
+title: 8. Manage local state
 description: How to store and query local data in the Apollo cache
 ---
+
+# 管理本地状态
 
 Time to accomplish: _15 Minutes_
 
@@ -15,11 +17,11 @@ Managing local data with Apollo Client is very similar to how you've already man
 
 Just like how a schema is the first step toward defining our data model on the server, writing a local schema is the first step we take on the client.
 
-Navigate to `src/resolvers.js` and copy the following code to create your client schema (as well as blank client resolvers for later):
+Navigate to `src/resolvers.js` and copy the following code to create your client schema \(as well as blank client resolvers for later\):
 
 _src/resolvers.js_
 
-```js
+```javascript
 import gql from 'graphql-tag';
 
 export const typeDefs = gql`
@@ -52,7 +54,7 @@ Jump back to `src/index.js` and notice we had already added a `cache.writeData` 
 
 _src/index.js_
 
-```js{1,11-12,15-20}
+```text
 import { resolvers, typeDefs } from './resolvers';
 
 const client = new ApolloClient({
@@ -85,7 +87,7 @@ Let's look at an example where we query the `isLoggedIn` field we wrote to the c
 
 _src/index.js_
 
-```jsx{8-12,15}
+```text
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
@@ -119,7 +121,7 @@ Let's look at another example of a component that queries local state in `src/pa
 
 _src/pages/cart.js_
 
-```js
+```javascript
 import React, { Fragment } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -171,7 +173,7 @@ To add a virtual field, first extend the type of the data you're adding the fiel
 
 _src/resolvers.js_
 
-```js
+```javascript
 import gql from 'graphql-tag';
 
 export const schema = gql`
@@ -185,7 +187,7 @@ Next, specify a client resolver on the `Launch` type to tell Apollo Client how t
 
 _src/resolvers.js_
 
-```js
+```javascript
 export const resolvers = {
   Launch: {
     isInCart: (launch, _, { cache }) => {
@@ -202,7 +204,7 @@ Now, you're ready to query your virtual field on the launch detail page! Similar
 
 _src/pages/launch.js_
 
-```js{4}
+```text
 export const GET_LAUNCH_DETAILS = gql`
   query LaunchDetails($launchId: ID!) {
     launch(id: $launchId) {
@@ -264,7 +266,7 @@ We can also perform direct writes within the `update` function of the `useMutati
 
 _src/containers/book-trips.js_
 
-```jsx{29-31}
+```text
 import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -312,13 +314,13 @@ In this example, we're directly calling `cache.writeData` to reset the state of 
 
 ### Local resolvers
 
-We're not done yet! What if we wanted to perform a more complicated local data update such as adding or removing items from a list? For this situation, we'll use a local resolver. Local resolvers have the same function signature as remote resolvers (`(parent, args, context, info) => data`). The only difference is that the Apollo cache is already added to the context for you. Inside your resolver, you'll use the cache to read and write data.
+We're not done yet! What if we wanted to perform a more complicated local data update such as adding or removing items from a list? For this situation, we'll use a local resolver. Local resolvers have the same function signature as remote resolvers \(`(parent, args, context, info) => data`\). The only difference is that the Apollo cache is already added to the context for you. Inside your resolver, you'll use the cache to read and write data.
 
 Let's write the local resolver for the `addOrRemoveFromCart` mutation. You should place this resolver underneath the `Launch` resolver we wrote earlier.
 
 _src/resolvers.js_
 
-```js
+```javascript
 export const resolvers = {
   Mutation: {
     addOrRemoveFromCart: (_, { id }, { cache }) => {
@@ -341,7 +343,7 @@ Let's see how we call the `addOrRemoveFromCart` mutation in a component:
 
 _src/containers/action-button.js_
 
-```js
+```javascript
 import gql from 'graphql-tag';
 
 const TOGGLE_CART = gql`
@@ -415,6 +417,5 @@ export default function ActionButton({ isBooked, id, isInCart }) {
 
 In this example, we're using the `isBooked` prop passed into the component to determine which mutation we should fire. Just like remote mutations, we can pass in our local mutations to the same `useMutation` hook.
 
----
-
 Congratulations! 🎉 You've officially made it to the end of the Apollo platform tutorial. In the final section, we're going to recap what we just learned and give you guidance on what you should learn next.
+
