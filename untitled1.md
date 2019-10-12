@@ -1,2 +1,0 @@
-# Apollo GraphQL平台
-

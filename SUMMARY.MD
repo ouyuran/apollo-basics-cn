@@ -1,6 +1,6 @@
 # Table of contents
 
-* [欢迎](welcome.MD)
-* [Apollo GraphQL平台](untitled1.md)
-* [为什么使用GraphQL](wei-shen-me-shi-yong-graphql.md)
+* [欢迎](welcome.md)
+* [Apollo GraphQL平台](platform.md)
+* [为什么使用GraphQL](why-graphql.md)
 
