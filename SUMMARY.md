@@ -1,7 +1,8 @@
 # Table of contents
 
 * [欢迎](welcome.md)
-* [Apollo GraphQL平台](platform.md)
+* [Test1](test1.md)
+* [Apollo GraphQL平台1](platform.md)
 * [为什么使用GraphQL](why-graphql.md)
 * [教程](jiao-cheng/README.md)
   * [简介](jiao-cheng/jian-jie.md)
@@ -13,4 +14,5 @@
   * [使用query获取数据](jiao-cheng/shi-yong-query-huo-qu-shu-ju.md)
   * [使用mutation更新数据](jiao-cheng/shi-yong-mutation-geng-xin-shu-ju.md)
   * [管理本地状态](jiao-cheng/guan-li-ben-di-zhuang-tai.md)
+* [LinkTest](https://google.com)
 
