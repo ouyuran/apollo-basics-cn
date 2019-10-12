@@ -1,5 +1,5 @@
 root: ./
 
 structure:
-  readme: README.MD
+  readme: welcome.MD
   summary: SUMMARY.MD
