@@ -1,45 +1,42 @@
 ---
 title: The Apollo GraphQL platform
-description: How Apollo helps you go from zero to production with GraphQL
+description: 如何使用Apollo从零开始一个项目
 ---
 
 # Apollo GraphQL平台
 
-Apollo is an implementation of GraphQL designed for the needs of product engineering teams building modern, data-driven applications. It encourages an agile, incremental approach and takes special care to avoid requiring any changes to existing APIs and services. Apollo puts particular emphasis on tooling and workflows.
+Apollo是GraphQL的一个实现，用以构建现代的、数据驱动的应用。它提倡敏捷、增量的方法，特别关注避免引入对任何现有API和服务的改动。Apollo同时特别强调工具和流程。
 
-Apollo is best used as a new layer in your stack that sits between your services and your applications. It's a combination of open source components, commercial extensions, and cloud services. The major pieces are:
+Apollo的最佳使用场景是作为你的服务和应用的中间层，它是开源组件、商业扩展和云服务的集合。
 
-![Graph layer](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/img/platform-diagram.png)
+## 开源组件（平台核心部分）
 
-## Core open source components
+* **Apollo Server**是一个JavaScript GraphQL服务器，它定义 _schema_ 和一组实现这个schema的 _resolvers_ 。一个典型的Apollo Server是可扩展的：可以在请求管道（request pipline）和服务器自己生命周期的任何一步hook一个插件，这使得自定义的行为可以用扩展包的形式来开发。Apollo Server支持AWS Lambda和其他serverless环境。
 
-* **Apollo Server** is a JavaScript GraphQL server for defining a _schema_ and a set of _resolvers_ that implement each part of that schema. Typically Apollo Server is extensible: plugins can hook in to each stage of the request pipeline and server's own lifecycle, making it possible to implement custom behaviors in add-on packages. Apollo Server supports AWS Lambda and other serverless environments.
-* **Apollo Client** is a sophisticated GraphQL client that manages data and state in an application. Among other benefits, it enables a declarative programming style that lets developers define queries as part of UI components; the client manages all the hairy details of binding query results to the UI, managing consistency, caching, and so on. Apollo Client also supports an exceptionally elegant approach to state management by _extending_ the GraphQL schema inside the client with additional structure. Apollo Client includes integrations for React, React Native, Vue, Angular, and other view layers.
-* **iOS and Android** clients, originally contributed by the community, make it possible to query a GraphQL API from native iOS and Android applications.
-* **Apollo CLI** is a simple command line client that provides access to Apollo cloud services.
+* **Apollo Client**是一个精巧的GraphQL客户端，管理数据和状态。它的优点包括：提供了一种声明式的编程范式，让开发者可以将query定义为UI组件的一部分；管理query结果和UI的绑定的所有犄角旮旯的细节，包括数据一致性，缓存等；通过 _扩展_ 客户端GraphQL schema引入额外的数据结构，Apollo Client能够非常优雅地管理状态。Apollo Client可以与React、React Native、Vue、Angular或其他视图层框架的集成。
 
-## Cloud services
+* **iOS and Android**客户端源于社区，支持原生iOS和Android应用。
 
-* **Schema registry** — a registry for GraphQL schemas that acts as a central source of truth for a schema, enriched with additional metadata like field-level usage statistics.
-* **Client registry** — a registry to track each known consumer of a schema, which can include both pre-registered and ad-hoc clients.
-* **Operation registry** — a registry of all the known operations against the schema, which similarly can include both pre-registered and ad-hoc operations.
-* **Trace warehouse** — a data pipeline and storage layer that captures structured information about each GraphQL operation processed by an Apollo Server \(or any other server that implements the Apollo trace API\), including the specific set of fields accessed, the tree of resolver calls that were made with timing data for each, and important metadata such as client identity and which version of the schema was queried.
+* **Apollo CLI**是一个简单的命令行客户端，用来访问Apollo的云服务。
 
-## Gateway
+## 云服务
 
-* **Apollo Gateway** — a configuration of Apollo Server and additional plugins
+* **Schema registry**是一个中心化的schema注册表。
+* **Operation registry**是一个schema所有已知操作的注册表。
+* **Trace warehouse**是一个数据管道和存储层，它抓取Apollo服务器（或者其它实现了Apollo日志API的服务器）执行每一个GraphQL操作的结构化信息，包括特定field的访问，resolver的调用树（包括时间戳，用户ID，schema版本信息等）。
 
-  that functions as a GraphQL gateway. The gateway composes separately deployed "micro-schemas" that reference each other into a single master schema, which looks to a client just like any regular GraphQL schema. To answer queries, the gateway builds a query plan, fetches data from each upstream GraphQL service, and assembles it all back together into a single result.
+## 网关
 
-## Workflows
+* **Apollo Gateway**是Apollo服务器的配置和提供GraphQL网关功能的插件。网关由一些独立部署但相互引用（reference）的微schema组成，从客户端看来就像是一个正常的GraphQL schema一样。在回应query请求时，网关从每个上游GraphQL服务上获取数据并合并成一个结果返回。
 
-On top of these components, Apollo implements some useful workflows for managing a GraphQL API. Each of these workflows makes use of several different parts of the platform, working together. Some examples are:
+## 工作流程
 
-### Schema change validation
+在所有的组件智商，Apollo实现了一些非常有用的工作流程来管理GraphQL API。这些工作流程保证了平台的不同部分协同工作的舒畅，下面其中一些例子：
 
-Apollo includes a facility for checking the compatibility of a given schema against a set of previously-observed operations. This uses the trace warehouse, operation registry, and \(typically\) the client registry. As an example, an operation that references a missing field or an operation that doesn't pass a required argument to a field would cause an incompatibility error. The compatibility check runs statically, taking advantage of the schema's type definitions, so it doesn't require a running server.
+### Schema变动有效性检查
 
-### Safelisting
+Apollo可以检查给定schema和操作的兼容性。这用到了trace warehouse、operation registry和client registry。例如，一个引用了不存在的field的操作或者没有输入必需的参数的操作会引起一个兼容性错误。兼容性检查是一种静态检查，得益于schema的类型定义，它不须要运行在一个服务器上。
 
-Apollo provides an end-to-end mechanism for _safelisting_ known clients and queries, a recommended best practice that limits production use of a GraphQL API to specific pre-arranged operations. There are two parts here. First, the Apollo CLI extracts all the queries from a client codebase, computes the over-the-wire subset of the query \(stripping out the part that references the client's local schema\), and stores it in the operation registry. Separately, an Apollo Server plugin synchronizes the list of pre-registered operations to the server, which then rejects queries that aren't present in its local copy.
+### 安全列表
 
+Apollo为客户端和请求提供了一个端到端的 xx 的机制，一个最佳实践是将产品可以使用的GraphQL API预先限定好。这涉及到两部分：第一，Apollo CLI从客户端代码中提取出所有可能的请求组成所有请求的一个子集，保存在operation registry中。第二，Apollo服务器的插件同步这些信息到服务器上，有了这些信息，服务器就可以拒绝所有不在这个子集中的请求。
