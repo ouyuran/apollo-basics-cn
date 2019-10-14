@@ -1,17 +1,24 @@
 ---
 title: Welcome
-description: Get started with the Apollo platform
+description: 开始Apollo之旅
 ---
 
 # 欢迎
 
-Hi there! 👋 We're excited you're here to learn about Apollo.
+欢迎！👋 非常高兴你到这里学习Apollo，本站是Apollo官方文档的镜像，目的是推广Apollo给更多的同学学习使用。目前为个人项目，缓慢施工中，欢迎PR。
 
-Apollo is a platform for building a **data graph**, a communication layer that seamlessly connects application clients \(such as React and iOS apps\) to back-end services.
+Apollo是一个构建**数据图（data graph）**的平台，它可以无缝地将客户端（例如React和iOS应用）和后端无缝地连接起来的通信层。
 
-It's easy to adopt Apollo incrementally, meaning you can set it up alongside an existing solution \(such as a REST API\) and migrate functionality at your convenience.
+你可以渐进式地使用Apollo，这意味着它可以和现有的方案（例如REST API）共存，在必要的时候再将它们迁移到Apollo。
 
-## Learn the basics
+## 学习基础知识
 
-Conveniently, we have a [tutorial](https://github.com/ouyuran/apollo-basics-cn/tree/956bb843c528a5552a48ee4f6fbb302e2b95c699/tutorial/introduction/README.md) that introduces you to each component of the platform. Ready to dive in?
+你可以从[教程](/jiao-cheng/jian-jie)开始学习Apollo平台的各个模块。准备好开始了吗？
 
+## 约定
+
+Apollo或计算机特有的词汇不翻译，详细的词汇表参见[这里](/zi-yuan/graphql-ci-hui-biao)。
+
+## 贡献与联系
+
+邮箱：[📧](hello@ouyuran.com)
