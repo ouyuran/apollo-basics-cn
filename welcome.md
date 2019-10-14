@@ -13,12 +13,13 @@ Apollo是一个构建**数据图（data graph）**的平台，它可以无缝地
 
 ## 学习基础知识
 
-你可以从[教程](/jiao-cheng/jian-jie)开始学习Apollo平台的各个模块。准备好开始了吗？
+你可以从[教程](jiao-cheng/jian-jie.md)开始学习Apollo平台的各个模块。准备好开始了吗？
 
 ## 约定
 
-Apollo或计算机特有的词汇不翻译，详细的词汇表参见[这里](/zi-yuan/graphql-ci-hui-biao)。
+Apollo或计算机特有的词汇不翻译，详细的词汇表参见[这里](zi-yuan/graphql-ci-hui-biao.md)。
 
 ## 贡献与联系
 
-邮箱：[📧](hello@ouyuran.com)
+邮箱：📧
+
