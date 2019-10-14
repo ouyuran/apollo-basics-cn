@@ -13,6 +13,11 @@
   * [使用query获取数据](jiao-cheng/shi-yong-query-huo-qu-shu-ju.md)
   * [使用mutation更新数据](jiao-cheng/shi-yong-mutation-geng-xin-shu-ju.md)
   * [管理本地状态](jiao-cheng/guan-li-ben-di-zhuang-tai.md)
-* [LinkTest](https://google.com)
-* [link2](https://google.com)
+* [资源](zi-yuan/README.md)
+  * [GraphQL原则](https://principledgraphql.com/)
+  * [GraphQL词汇表](zi-yuan/graphql-ci-hui-biao.md)
+  * [常见问题](zi-yuan/chang-jian-wen-ti.md)
+* [参考](can-kao/README.md)
+  * [配置Apollo项目](can-kao/pei-zhi-apollo-xiang-mu.md)
+  * [启用分析报告](can-kao/qi-yong-fen-xi-bao-gao.md)
 

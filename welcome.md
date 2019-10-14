@@ -5,8 +5,6 @@ description: Get started with the Apollo platform
 
 # 欢迎
 
-import DocsetMenu from './components/docset-menu'; import { ButtonWrapper, ButtonLink } from 'gatsby-theme-apollo-docs';
-
 Hi there! 👋 We're excited you're here to learn about Apollo.
 
 Apollo is a platform for building a **data graph**, a communication layer that seamlessly connects application clients \(such as React and iOS apps\) to back-end services.
