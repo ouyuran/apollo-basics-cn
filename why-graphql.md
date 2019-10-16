@@ -1,39 +1,39 @@
 ---
 title: Why GraphQL?
-description: Why adopting GraphQL and Apollo will help you ship features faster
+description: 了解为什么采用GraphQL以及它如何帮助你更快地交付新功能
 ---
 
 # 为什么使用GraphQL
 
-Managing data in modern applications can present a number of challenges. Developers have to aggregate data from multiple sources, distribute it upon multiple platforms, and plumb it into an app's UI. On top of that, front-end developers have to decide how to manage state on the client, all while executing complicated features such as caching and optimistic UI.
+在现代的应用程序中，管理数据越来越成为一个挑战。开发者有时需要从不同的数据源聚合数据，有时又需要将数据分发到不同的平台，同时还要想办法把这些数据显示到界面上。对于前端开发者来说，还要决定如何管理状态（state）。与此同时，开发者还需要考虑诸如缓存（caching）和乐观UI（Optimistic UI）等等复杂的需求。
 
-Adopting GraphQL in your organization will ease these pain points considerably. Read on to learn how GraphQL's declarative approach to data fetching will simplify data transformation and speed up your API. You'll also learn how the Apollo platform enables faster development cycles thanks to its advanced ecosystem of tooling and excellent developer experience.
+人生苦短，我用GraphQL。下面，让我们来看看GraphQL声明式的获取数据方式是如何简单且高效的吧，同时你还能学习到Apollo平台完整的工具链。
 
-## Developer experience
+## 开发体验
 
-Implementing GraphQL in your organization via the Apollo platform can help you ship features faster due to its excellent developer experience. Our \#1 goal is to simplify data management across the stack. Features that are normally difficult to execute, such as fullstack caching, data normalization, and optimistic UI suddenly become trivial thanks to Apollo Client, Apollo Server, and Apollo Graph Manager. Let's learn how!
+使用Apollo平台能帮你更快的发布新功能。我们的首要目标是简单化跨越不同端的数据管理。一些通常认为比较困难的功能，比如说全栈缓存，数据正则化和乐观UI在有了Apollo之后变得如此简单。让我们来看看如何做到吧！
 
-### Explore your API
+## 浏览API
 
-GraphQL's strongly typed query language enables developers to take advantage of incredible tooling for exploring GraphQL APIs. Thanks to GraphQL's introspection system, developers can query a GraphQL schema for information about what queries and types it supports. Introspection unlocks some really cool features, such as automatic documentation, autocomplete, and more.
+得益于GraphQL的强类型系统，开发者可以在开发过程中实时浏览一个GraphQL的schema的信息，包括它支持哪些query请求。同时，自动文档化，自动补齐也变得可能。
 
 #### GraphQL Playground
 
-[GraphQL Playground](https://github.com/prismagraphql/graphql-playground) by Prisma is an excellent IDE featuring automatically generated docs for your schema and query execution with autocomplete. At a glance, you can see all the data available in your GraphQL API without diving into the backend code or knowing what source it came from.
+Prisma开发的[GraphQL Playground](https://github.com/prismagraphql/graphql-playground)是一个很棒的IDE，它可以自动生成文档，也可以用来执行schema的query，你可以在上面调试你的GraphQL API。你可以认为它有点像Postman之类测试API的工具，但更强大。
 
-![GraphQL Playground](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/graphql-playground.png)
+![GraphQL Playground](../assets/graphql-playground.png)
 
-Apollo Server 2+ sets up GraphQL Playground out of the box, so you can start exploring your schema and executing queries immediately.
+Apollo Server 2以上的版本默认开启了GraphQL Playground，所以你无须做任何事就可以马上试用。
 
-#### Apollo DevTools
+#### Apollo调试工具
 
-Apollo DevTools is a Chrome extension that allows you to inspect your Apollo Client cache, track active queries, and view mutations. You also have access to GraphiQL within Apollo DevTools which is convenient for testing queries as you're working on front-end code with Apollo Client.
+Apollo调试工具是一个Chrome插件，它让你可以查看Apollo客户端的缓存，跟踪query和查看mutation。你也可以访问Apollo调试工具中的GraphiQL，这让你很方便地在使用了Apollo客户端的前端代码里面调试query。
 
-![Apollo DevTools](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/dev-tools.png)
+![Apollo DevTools](../assets/dev-tools.png)
 
-### Simplify front-end code
+### 简化前端代码
 
-If you've worked with REST and a state management library like Redux, you're probably used to writing action creators, reducers, normalizing your data, and integrating middleware to make a single network request. With Apollo Client, you no longer have to worry about any of these concerns! Apollo Client sets up everything you need for a production-ready app so you can focus on writing queries instead of thousands of lines of state management code.
+如果你曾经使用REST和一些状态管理的库（比如Redux），你应该习惯于编写action creator、reducer，正则化数据，集成中间件来完成一个简单的网络请求。但使用Apollo客户端，你将不在须要担心这些东东了！Apollo客户端帮你设置好了你需要的一切，你可以直接开始编写业务代码而不是先写个几千行的样板代码了。
 
 ```javascript
 import ApolloClient from 'apollo-boost';
@@ -43,21 +43,21 @@ const client = new ApolloClient({
 });
 ```
 
-Teams who have switched to Apollo Client have reported [deleting thousands of lines of state management code](https://blog.apollographql.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a) and lots of complexity from their application. Since Apollo Client supports managing both local and remote data, you can use the Apollo cache as a single source of truth for all global state in your application.
+那些切换到Apollo客户端的团队纷纷表示删了数千行的样板代码（[看这里](https://blog.apollographql.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a)），同时极大地降低了代码复杂度。Apollo客户端可以同时搞定本地和远端数据，你可以用Apollo缓存作为单一可信数据源来存储应用的全局状态。
 
-### Modern tooling
+### 现代化的工具
 
-Developing your GraphQL API with the Apollo platform gives teams access to modern tooling that helps them uncover bugs quickly, gain visibility into their API, and develop challenging features such as caching with confidence.
+使用Apollo平台来开发GraphQL API让你可以使用现代化的工具，更快发现bug，可视化API和更有信息开发一些挑战性的功能（例如缓存）。
 
-[Apollo Graph Manager](https://engine.apollographql.com/login) is the only tool in the GraphQL ecosystem that can provide monitoring and analytics for your API. Graph Manager displays per-resolver tracing metrics that help you pinpoint bugs, as well as performance distribution for every field in your schema. You can also pipe this data to services you're probably already using like DataDog, and set up Slack alerts if these numbers pass a certain threshold.
+[Apollo Graph Manager](https://engine.apollographql.com/login)是GraphQL生态中唯一一个提供监视和分析API功能的工具。(译者：这是一个收费的商业产品，有兴趣的可以看看，译者没有使用过，所以相关章节暂无翻译)
 
-![Apollo Graph Manager](https://github.com/ouyuran/apollo-basics-cn/tree/ac6b18ea002b9caf3903ab44adadcb8aca1c8bc7/assets/engine.png)
+![Apollo Graph Manager](../assets/engine.png)
 
-## Declarative data fetching
+## 声明式地获取数据
 
-One of the main advantages of adopting GraphQL is its declarative approach to data fetching. With GraphQL, there's no need to call multiple endpoints from the client or aggregate the data manually like you have to with traditional REST data fetching. Instead, you specify the exact data you need and GraphQL gives you exactly what you asked for.
+GraphQL的一个主要的优势就在于其声明式的数据获取。使用GraphQL，你不在须要去若干个终端获取数据，再手动地聚合这些数据（我们使用REST时的常规操作）。相反的，你声明你想要什么样的数据GraphQL就会给你你想要的。
 
-With REST, you would have to call all of these endpoints for each item in the list, filter down the data you need, and aggregate all of the remaining data into the shape your components consume.
+使用REST时，你可能会分别地调用下面这些接口来获取每一个列表里面的每一项，过滤出你要的数据，然后把剩下的数据聚合起来，以满足你的视图组件的需求。
 
 ```bash
 GET /api/dogs/breeds
@@ -65,7 +65,7 @@ GET /api/dogs/images
 GET /api/dogs/activities
 ```
 
-Not only is this approach time-consuming, it's also prone to error and difficult to reuse logic across platforms. Compare this with GraphQL's declarative way to query data:
+这样的处理方式不单更耗时、更加容易出错，同时在跨平台的产品中也不大容易逻辑复用。对比下GraphQL的声明式数据获取：
 
 ```graphql
 const GET_DOGS = gql`
@@ -84,11 +84,11 @@ const GET_DOGS = gql`
 `;
 ```
 
-Here, we're describing the shape of the object we want to receive from the server. GraphQL takes care of combining and filtering the data while returning exactly what we ask for.
+在这里，我们声明我们从服务器获取的数据应该长什么样。GraphQL会帮我们搞定数据的过滤和聚合，返回的就是你想要的数据结构。
 
-How do we use this query in our app? Apollo Client builds off of GraphQL's declarative approach to data fetching. In a React app, all of the logic for retrieving your data, tracking loading and error states, and updating your UI is encapsulated in a single `useQuery` hook. This encapsulation makes composing your data fetching components with your presentational components a breeze! Let’s see how to fetch GraphQL data with Apollo Client in a React app:
+那我们在应用中怎么使用声明式的数据获取呢？在React应用中，所有获取数据、跟踪加载状态和错误状态和更新UI都包装在一个简单的`useQuery` hook中了。这让你将数据获取和视图组件的结合变得非常容易。看看下面这个例子：
 
-```jsx
+```javascript
 function Feed() {
   const { loading, error, data } = useQuery(GET_DOGS);
 
@@ -99,17 +99,17 @@ function Feed() {
 }
 ```
 
-Apollo Client takes care of the request cycle from start to finish, including tracking loading and error states for you. There’s no middleware to set up or boilerplate to write before making your first request, nor do you need to worry about transforming and caching the response. All you have to do is describe the data your component needs and let Apollo Client do the heavy lifting. 💪
+Apollo客户端搞定一个请求从开始到结束的方方面面，包括追踪加载状态和错误状态。不需要设置任何中间件和写任何样板代码，也不要担心数据转换和缓存。你要做的就是声明你的组件想要什么样的数据，剩下的苦活累活就交给Apollo客户端了。给力💪！
 
-You’ll find that when you switch to Apollo Client, you’ll be able to delete a lot of unnecessary code related to data management. The exact amount will vary depending on your application, but some teams have reported up to thousands of lines. To learn more about how Apollo Client enables advanced features like optimistic UI, refetching, and pagination with less code, check out our [documentation for Apollo Client](https://www.apollographql.com/docs/react/).
+你会发现，当你切换到Apollo客户端后，你会删除一大坨不需要的数据管理的代码。至于能删多少，取决于你自己的应用，不过有一些团队说删了几千行（编者：这个故事说了好几遍还行）。想知道怎么样用更少的代码实现乐观UI、刷新数据、分页等等高级特性，就去看看Apollo客户端的文档吧。
 
-## Improved performance
+## 性能提升
 
-In many cases, layering a GraphQL API over your existing REST endpoints can improve your app's performance, especially on devices with slow network connections. While you should always measure to determine how integrating GraphQL will affect your application, it's generally accepted that GraphQL improves performance by helping avoid round trips to the server and reducing payload size.
+在许多情况下，仅仅在现存的REST API上包装一层GraphQL API就可以提高性能，特别是当设备的网络条件不好时。但你这么做之前，应该先评估这么做的影响，通常来说，GraphQL会减少请求的数量和体积。
 
-### Smaller payloads
+### 体积更小
 
-Since the response back from the server contains only the properties you specify in your query, GraphQL can significantly reduce payload size compared to a REST endpoint. Let's take a look at our dogs query from earlier in the article:
+因为从服务器返回的回应只包含你所需要的字段，GraphQL相对REST显著地减小了交互的体积。让我们再看看前面小狗的例子：
 
 ```graphql
 const GET_DOGS = gql`
@@ -128,11 +128,11 @@ const GET_DOGS = gql`
 `;
 ```
 
-The response back from the server will be a list of dog objects with `id`, `breed`, `image`, and `activities` properties. It doesn't matter if the underlying REST endpoints we call in our resolvers return back objects with 100 properties! All of those extraneous properties will be filtered out before the response is sent back to the client.
+从服务器返回的回应一个包含了`id`、 `breed`、 `image`和`activities`字段的dog对象的列表。即时我们的resolver调用的底层的REST接口返回的对象包括100个字段也没关系，那些不需要的字段在返回客户端之前就被过滤掉了。
 
-### Avoid round trips
+### 避免多次请求
 
-Since each GraphQL request returns only one response, switching to GraphQL can help you avoid costly round trips from the client to your server. With REST, each resource represents a round trip, which can quickly add up. If you're fetching items in a list, you'll have to complete a round trip for every resource multiplied by the number of items, causing slow load times, especially on mobile devices.
+因为一个GraphQL请求只有一个交互，切换到GraphQL能帮你避免多次交互的开销。当我们使用REST时，每一个资源代表一次交互，这样就可以很方便都添加新的资源。这样的话，当你请求一系列的资源时，不得不为每一个资源做一次交互，这导致加载变慢，尤其是在移动端。
 
 ```bash
 GET /api/dogs/breeds
@@ -140,20 +140,20 @@ GET /api/dogs/images
 GET /api/dogs/activities
 ```
 
-With GraphQL, each query represents a single round trip from the client to server. If you'd like to reduce round trips even further, you can implement [query batching](https://www.apollographql.com/docs/react/advanced/network-layer#query-batching) to batch multiple queries into a single request.
+当使用GraphQL时，每个query代表一次单独的交互。如果你想更进一步地减少交互，你可是实现[query batching](https://www.apollographql.com/docs/react/advanced/network-layer#query-batching)以在一个求情中批量处理多个query。
 
-### Ready for production
+### 产品化
 
-While the GraphQL specification was first made public by Facebook in 2015, GraphQL has been a key component of their mobile application deployment since 2012.
+Fackbook在2015年第一次公布GraphQL，在此之前的2012年GraphQL就已经是他们移动端应用的关键组件了。
 
-At Apollo, we found GraphQL to be an excellent solution to many of the problems we encountered with existing techniques, and now use it to power critical infrastructure. Over the years, we’ve worked with the open-source community along with customers and partners of all sizes to continually bring new innovations to the open-source Apollo offerings, and we're proud that those offerings are suitable for everything from startups to large-scale deployments.
+对Apollo来说，我们发现GraphQL对我们遇到的很多现有技术所难以解决的问题都是一个很棒的解决方案，现在更被用来增强底层架构。在过去的几年，我们和开源社区、客户和合作伙伴一起工作，持续给开源的Apollo带来改进，我们很自豪地说我们提供的方案对无论是刚起步的项目还是大规模部署的项目都同样适用。
 
-In addition to our own experience, we have received extensive feedback, contributions and support from enterprise customers who are actively using Apollo GraphQL in production. A few of our most public and notable case-studies are:
+除了我们自己的经验，我们还收到了Apollo GraphQL使用者的很多反馈、贡献和支持。下面是其中一些（都是英文的）：
 
-* [**The New York Times**](https://open.nytimes.com/the-new-york-times-now-on-apollo-b9a78a5038c): Learn how The New York Times switched from Relay to Apollo & implemented features in their app such as SSR and persisted queries.
-* [**Airbnb**](https://medium.com/airbnb-engineering/reconciling-graphql-and-thrift-at-airbnb-a97e8d290712): Airbnb is betting big on the Apollo platform to power the data layer for their microservices.
-* [**Express**](https://dev-blog.apollodata.com/changing-the-architecture-of-express-com-23c950d43323): Easy-to-use pagination with Apollo helped improve the Express eCommerce team's key product pages.
-* [**Major League Soccer**](https://dev-blog.apollodata.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a): MLS' switch from Redux to Apollo for state management enabled them to delete nearly all of their Redux code.
-* [**Expo**](https://dev-blog.apollodata.com/using-graphql-apollo-at-expo-4c1f21f0f115): Developing their React Native app with Apollo allowed the Expo engineers to focus on improving their product instead of writing data fetching logic.
-* [**KLM**](https://youtu.be/T2njjXHdKqw): Learn how the KLM team scaled their Angular app with GraphQL and Apollo.
+* [**纽约时报**](https://open.nytimes.com/the-new-york-times-now-on-apollo-b9a78a5038c)
+* [**爱彼迎**](https://medium.com/airbnb-engineering/reconciling-graphql-and-thrift-at-airbnb-a97e8d290712)
+* [**Express**](https://dev-blog.apollodata.com/changing-the-architecture-of-express-com-23c950d43323)
+* [**美足联**](https://dev-blog.apollodata.com/reducing-our-redux-code-with-react-apollo-5091b9de9c2a)
+* [**Expo**](https://dev-blog.apollodata.com/using-graphql-apollo-at-expo-4c1f21f0f115)
+* [**KLM**](https://youtu.be/T2njjXHdKqw)
 
