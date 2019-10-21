@@ -9,7 +9,7 @@ Apollo是GraphQL的一个实现，用以构建现代的、数据驱动的应用�
 
 Apollo的最佳使用场景是作为你的服务和应用的中间层，它是开源组件、商业扩展和云服务的集合。主要部件包括：
 
-![Graph层](../img/platform-diagram.png)
+![Graph层](/assets/platform-diagram.png)
 
 ## 开源组件（平台核心部分）
 
