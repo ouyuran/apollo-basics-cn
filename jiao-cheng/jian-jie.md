@@ -57,10 +57,10 @@ Apollo是一个开发graph的平台。它包括两个运行时：**Apollo Server
 git clone https://github.com/apollographql/fullstack-tutorial/
 ```
 
-里面有两个文件夹：开发的起始点`start`和最终版本`final`。在每个文件夹里又有两个子文件夹，一个是客户端`client`另一个是服务器端`server`，我们将从服务器端开始。如果你已经熟悉如何开发graph API，你可以从[教程的后半部分](/jiao-cheng/lian-jie-api-dao-client/)开始。
+里面有两个文件夹：开发的起始点`start`和最终版本`final`。在每个文件夹里又有两个子文件夹，一个是客户端`client`另一个是服务器端`server`，我们将从服务器端开始。如果你已经熟悉如何开发graph API，你可以从[教程的后半部分](jiao-cheng/lian-jie-api-dao-client/)开始。
 
 ### 从哪里获得帮助？
 
 我们知道学习新技术有时候并不容易，碰到拦路虎很常见！如果你碰到困难，推荐加入[Apollo Spectrum社区](https://spectrum.chat/apollo)发帖提问。
 
-鉴于译者水平，如果有任何疑问或发先错误，请先确认[英文原版文档](https://www.apollographql.com/docs/)，确认是原版文档问题或是翻译问题。如果是翻译问题，你可以点“Edit on Github”来提交一个PR。
+鉴于译者水平，如果有任何疑问或发先错误，请先确认[英文原版文档](https://www.apollographql.com/docs/)，确认是原版文档问题或是翻译问题。如果是翻译问题，你可以点击右上角的“Edit on Github”来提交一个PR。
