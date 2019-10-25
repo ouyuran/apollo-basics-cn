@@ -3,6 +3,8 @@ title: '1. Build a schema'
 description: 画出 graph 数据的蓝图
 ---
 
+预计阅读时间: _15 分钟_
+
 实现graph API的第一步是构造 **schema**。你可以把 schema 看做是 graph 所能访问的所有数据的蓝图。通过这个章节，你将学习到怎样在Apollo中构造 graph 的 schema。
 
 ## 搭建 Apollo 服务器
@@ -97,7 +99,7 @@ type Launch {
 
 `Launch` 类型有五个字段，一些是对象类型另一些是标量类型。标量类型是像 `ID` 、 `String` 、 `Boolean` 和 `Int` 这样的原始类型。Graph 解析的时候会相当于展开对象类型，所以对象类型展开成树状后，所有叶子节点都会是一个标量类型。GraphQL 有许多内置的标量类型，你也可以自定义，比如 `Date`。
 
-;TODO， link to custom scalars
+<!-- TODO， link to custom scalars -->
 
 `Mission` 和 `Rocket` 是两个其它的对象类型，让我们来定义它们：
 
