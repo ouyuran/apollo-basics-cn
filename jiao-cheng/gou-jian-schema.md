@@ -1,6 +1,6 @@
 ---
 title: '1. Build a schema'
-description: 画出graph数据的蓝图
+description: 画出 graph 数据的蓝图
 ---
 
 实现graph API的第一步是构造 **schema**。你可以把 schema 看做是 graph 所能访问的所有数据的蓝图。通过这个章节，你将学习到怎样在Apollo中构造 graph 的 schema。
@@ -187,12 +187,12 @@ server.listen().then(({ url }) => {
 
 GraphQL Playground 让你可以重新审视你的 schema。点击右侧的 `schema` 按钮试试看。
 
-![Schema 按钮](assets/schematab.png)
+![Schema 按钮](../assets/schematab.png)
 
 你可以通过 `schema` 按钮快速访问到一个 GraphQL API 的细节。
 
 You can quickly have access to the documentation of a GraphQL API via the `schema` button.
 
-![Schema 细节](assets/moredetailsonatype.png)
+![Schema 细节](../assets/moredetailsonatype.png)
 
 以上就是编写 schema 的全部内容了。让我们继续教程的下一章节。
