@@ -96,6 +96,7 @@ type Launch {
 ```
 
 `Launch` 类型有五个字段，一些是对象类型另一些是标量类型。标量类型是像 `ID` 、 `String` 、 `Boolean` 和 `Int` 这样的原始类型。Graph 解析的时候会相当于展开对象类型，所以对象类型展开成树状后，所有叶子节点都会是一个标量类型。GraphQL 有许多内置的标量类型，你也可以自定义，比如 `Date`。
+
 ;TODO， link to custom scalars
 
 `Mission` 和 `Rocket` 是两个其它的对象类型，让我们来定义它们：
@@ -190,8 +191,6 @@ GraphQL Playground 让你可以重新审视你的 schema。点击右侧的 `sche
 ![Schema 按钮](../assets/schematab.png)
 
 你可以通过 `schema` 按钮快速访问到一个 GraphQL API 的细节。
-
-You can quickly have access to the documentation of a GraphQL API via the `schema` button.
 
 ![Schema 细节](../assets/moredetailsonatype.png)
 

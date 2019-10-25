@@ -5,7 +5,7 @@
 * [为什么使用GraphQL](why-graphql.md)
 * [教程](jiao-cheng/README.md)
   * [简介](jiao-cheng/jian-jie.md)
-  * [构建schema](jiao-cheng/gou-jian-schema.md)
+  * [编写schema](jiao-cheng/gou-jian-schema.md)
   * [连接数据源](jiao-cheng/lian-jie-shu-ju-yuan.md)
   * [编写graph resolver](jiao-cheng/bian-xie-graph-resolver.md)
   * [在生产环境运行graph](jiao-cheng/zai-sheng-chan-huan-jing-yun-hang-graph.md)
