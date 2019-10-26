@@ -80,11 +80,11 @@ module.exports = {
 
 有没有发现我们的 resolver 写得简单明了，那是因为复杂逻辑都被包装到 `LaunchAPI` 和 `UserAPI` 这两个数据源中了。保持 resolver 轻量化是我们推荐的最佳实践，这样你就能安全地重构代码而不用担心破坏了你的 API 了。
 
-### Run queries in the playground
+### 在 playground 中运行 query
 
-Apollo Server sets up GraphQL Playground so that you can run queries and explore your schema with ease. Go ahead and start your server by running `npm start` and open up the playground in a browser window at `http://localhost:4000/`.
+Apollo 服务器提供了 GraphQL Playground 让你运行 query 和查看 schema。用 `npm start` 命令启动你的服务器，然后用浏览器访问 `http://localhost:4000/` 来打开 playground。
 
-Start by copying the GraphQL query below and pasting it in the left side of the playground. Then, hit the play button at the center to get a response.
+将下面的 GraphQL query 拷贝到 playground 的左侧，然后中间的点击 play 按钮来获得结果。
 
 ```graphql
 query GetLaunches {
@@ -97,11 +97,11 @@ query GetLaunches {
 }
 ```
 
-When you write a GraphQL query, you always want to start with the **operation keyword** (either query or mutation) and its name (like `GetLaunches`). It's important to give your queries descriptive names so they're discoverable in Apollo developer tooling. Next, we use a pair of curly braces after the query name to indicate the body of our query. We specify the `launches` field on the `Query` type and use another pair of curly braces to indicate a **selection set**. The selection set describes which fields we want our query response to contain.
+当你编写一个 GraphQL query 时，你总是应该用**操作关键字**（例如 query 或 mutation）和它的名字（例如 `GetLaunches`）开始。给你的 query 起一个表义的名字很重要，这样你在 Apollo 开发者工具中能更容易地找到它。下面，在名字后面我们用一对大括号把 query 的 body 部分括起来。接下来，我们指定 `launches` 字段（它定义在 `Query` 类型中），然后再跟上一对大括号把**选择集合**括起来。选择集合表示我们期望 query 的回应包含哪些字段。
 
-What's awesome about GraphQL is that the shape of your query will match the shape of your response. Try adding and removing fields from your query and notice how the response shape changes.
+GraphQL 很棒的一点就是 query 想要什么，回应就会给什么。试着在 query 中添加或删除一些字段，看看回应的内容会发生什么变化。
 
-Now, let's write a launch query that accepts an argument. Copy the query below and paste it in the playground. Then, click the play button to get a response.
+现在，让我们编写一个 query，它接受一个入参，用来获取单个火箭发射。把下面的 query 拷贝到 playground 中并点击 play 运行。
 
 ```graphql
 query GetLaunchById {
@@ -115,7 +115,7 @@ query GetLaunchById {
 }
 ```
 
-Instead of hard coding the argument `60`, you can also set variables in the bottom left corner. Here's how to run that same query with variables:
+注意到上面的入参 `60` 是硬编码在 query 中的，你可以将它改写成下面这样，然后在 playground 的左下角填写参数，这样就可以用不同的参数跑同一个 query 了：
 
 ```graphql
 query GetLaunchById($id: ID!) {
@@ -129,27 +129,27 @@ query GetLaunchById($id: ID!) {
 }
 ```
 
-You can paste `{ "id": 60 }` into the Query Variables section below before running your query. Feel free to experiment with running more queries before moving on to the next section.
+试着将 `{ "id": 60 }` 拷贝到左下角的变量区然后再运行一次你的 query，在进行下一小节之前多试试这个功能吧。
 
-### Paginated queries
+### 分页 query
 
-Running the `launches` query returned a large data set of launches, which can slow down our app. How can we ensure we're not fetching too much data at once?
+直接运行 `launches` query 返回的数据量很大，这可能拖累我们的应用。我们怎么保证一次获取的数据量不会太大呢？
 
-**Pagination** is a solution to this problem that ensures that the server only sends data in small chunks. Cursor-based pagination is our recommended approach over numbered pages, because it eliminates the possibility of skipping items and displaying the same item more than once. In cursor-based pagination, a constant pointer (or **cursor**) is used to keep track of where in the data set the next items should be fetched from.
+**分页（pagination）**是解决这个问题的一种方案，它保证了服务器每次只发送一小片数据。基于游标的分页（Curson-based pagination）是我们推荐的做法，因为这种做法既不会漏掉一些条目也不会将同一个条目显示多次。在基于游标的分页中，一个常量指针（cursor）用来追踪接下来该从哪里开始获取数据。
 
-We'll use cursor-based pagination for our graph API. Open up the `src/schema.js` file and update the `Query` type with `launches` and also add a new type called `LaunchConnection` to the schema as shown below:
+下面，让我们试试基于游标的分页。打开 `src/schema.js` 文件，更新 `Query` 类型中的 `launches` 并增加一个新的 `LaunchConnection` 类型：
 
 _src/schema.js_
 
 ```graphql
 type Query {
-  launches( # replace the current launches query with this one.
+  launches( # 将当前的 launches query 替换为这个。
     """
-    The number of results to show. Must be >= 1. Default = 20
+    默认的结果个数，应该 >= 1。默认值 20。
     """
     pageSize: Int
     """
-    If you add a cursor here, it will only return results _after_ this cursor
+    如果在这里添加了游标，那么之后游标之后的结果会返回。
     """
     after: String
   ): LaunchConnection!
@@ -158,11 +158,11 @@ type Query {
 }
 
 """
-Simple wrapper around our list of launches that contains a cursor to the
-last item in the list. Pass this cursor to the launches query to fetch results
-after these.
+对 launches 结果的简单包装，包含一个游标 cursor 指向当
+前结果的最后一项，hasMore 标示是否有更多的结果了。
+将 cursor 传入下一次的 launches query 来获取之后的结果。
 """
-type LaunchConnection { # add this below the Query type as an additional type.
+type LaunchConnection { # 将这个额外的类型添加在 Query 类型之后。
   cursor: String!
   hasMore: Boolean!
   launches: [Launch]!
@@ -170,11 +170,11 @@ type LaunchConnection { # add this below the Query type as an additional type.
 ...
 ```
 
-You'll also notice we've added comments (also called docstrings) to our schema, indicated by `"""`. Now, the `launches` query takes in two parameters, `pageSize` and `after`, and returns a `LaunchConnection`. The `LaunchConnection` type returns a result that shows the list of launches, in addition to a `cursor` field that keeps track of where we are in the list and a `hasMore` field to indicate if there's more data to be fetched.
+你可能注意到了，我们使用一组 `"""` 来在 shcema 中引入多行注释。现在 `launches` query 接受两个入参： `pageSize` 和 `after`，返回 `LaunchConnection`。`LaunchConnection` 类型包括 launches 的一个列表，一个 `cursor` 标示我们当前获取到全部结果的哪里了，一个 `hasMore` 标示是否还有更多的结果。
 
-Open up the `src/utils.js` file in the repo you cloned in the previous section and check out the `paginateResults` function. The `paginateResults` function in the file is a helper function for paginating data from the server. Now, let's update the necessary resolver functions to accommodate pagination.
+打开  `src/utils.js` 文件看看 `paginateResults` 函数。这个函数是在服务器侧将数据分页的帮助函数。现在，让我们更新必要的 resolver 函数来完成分页功能。
 
-Let's import `paginateResults` and replace the `launches` resolver function in the `src/resolvers.js` file with the code below:
+让我们引入 `paginateResults` 并将 `src/resolvers.js` 文件中的 `launches` resolver 函数替换为下面的代码：
 
 _src/resolvers.js_
 
@@ -213,7 +213,7 @@ module.exports = {
 };
 ```
 
-Let's test the cursor-based pagination we just implemented. If you stopped your server, go ahead and restart your graph API again with `npm start`, and run this query in the playground:
+让我们测试一下分页功能。先杀掉服务器程序，然后用 `npm start` 重新启动，在 playground 上运行下面这个 query：
 
 ```graphql
 query GetLaunches {
@@ -228,21 +228,21 @@ query GetLaunches {
 }
 ```
 
-Thanks to our pagination implementation, you should only see three launches returned back from our API.
+分页功能生效了，你现在应该只能看到三个结果了。
 
-## Write resolvers on types
+## 为你的类型编写 resolver
 
-It's important to note that you can write resolvers for any types in your schema, not just queries and mutations. This is what makes GraphQL so flexible.
+值得注意的是，你可以为定义在 schema 中的任何类型编写 resolver，不仅仅是 query 和 mutation。这让 GraphQL 非常灵活。
 
-You may have noticed that we haven't written resolvers for all our types, yet our queries still run successfully. GraphQL has default resolvers; therefore, we don't have to write a resolver for a field if the parent object has a property with the same name.
+你可能发现我们还没有给任何一个类型编写 resolver，但是我们的 query 还是能正确的运行。这是因为 GraphQL 有默认的 resolver，因此如果一个字段在父对象中的属性名和本身的名字相同，那么我们就不比为它编写 resolver。
 
-Let's look at a case where we do want to write a resolver on our `Mission` type. Navigate to `src/resolvers.js` and copy this resolver into our resolver map underneath the `Query` property:
+看个具体的例子，假设说我们打算为 `Mission` 类型编写一个 resolver。打开 `src/resolvers.js` 文件并把下面的 resolver 拷贝到 `Query` 属性下面：
 
 _src/resolvers.js_
 
 ```js
 Mission: {
-  // make sure the default size is 'large' in case user doesn't specify
+  // 设置默认的 size 为 'large'
   missionPatch: (mission, { size } = { size: 'LARGE' }) => {
     return size === 'SMALL'
       ? mission.missionPatchSmall
@@ -259,9 +259,9 @@ _src/schema.js_
   }
 ```
 
-The first argument passed into our resolver is the parent, which refers to the mission object. The second argument is the size we pass to our `missionPatch` field, which we use to determine which property on the mission object we want our field to resolve to.
+传入 resolver 的第一个入参是父对象，指向 mission。第二个入参是我们希望的 `missionPatch` 的 size，用来决定我们会用 mission 对象的哪个字段来填充 `missionPatch` 字段。
 
-Now that we know how to add resolvers on types other than `Query` and `Mission`, let's add some more resolvers to the `Launch` and `User` types. Copy this code into your resolver map:
+我们已经知道怎么在除了 `Query` 和 `Mission` 之外的类型上添加 resolver，让我们再往 `Launch` 和 `User` 类型上添加 resolver 吧。将下面的代码拷贝到对应的位置：
 
 _src/resolvers.js_
 
@@ -272,12 +272,12 @@ Launch: {
 },
 User: {
   trips: async (_, __, { dataSources }) => {
-    // get ids of launches by user
+    // 通过用户获取班次号
     const launchIds = await dataSources.userAPI.getLaunchIdsByUser();
 
     if (!launchIds.length) return [];
 
-    // look up those launches by their ids
+    // 通过班次号查询班次信息
     return (
       dataSources.launchAPI.getLaunchesByIds({
         launchIds,
@@ -287,19 +287,19 @@ User: {
 },
 ```
 
-You may be wondering where we're getting the user from in order to fetch their booked launches. This is a great observation - we still need to authenticate our user! Let's learn how to authenticate users and attach their user information to the context in the next section before we move onto `Mutation` resolvers.
+你可能想知道，我们怎么获取用户信息，然后才能查询他们的运行班次。我们需要用户鉴权！在继续学习 `Mutatuion` resolver 之前，让我们一些来学习怎么样鉴权用户，并把他们的信息添加到上下文。
 
-## Authenticate users
+## 用户鉴权
 
-Access control is a feature that almost every app will have to handle at some point. In this tutorial, we're going to focus on teaching you the essential concepts of authenticating users instead of focusing on a specific implementation.
+访问控制几乎是每一个应用都需要的一个功能。在本教程中，我们将重点放在介绍用户鉴权的一些基本知识而不是某一个具体实现。
 
-Here are the steps you'll want to follow:
+下面是我们将要学习的内容：
 
-1. The context function on your `ApolloServer` instance is called with the request object each time a GraphQL operation hits your API. Use this request object to read the authorization headers.
-2. Authenticate the user within the context function.
-3. Once the user is authenticated, attach the user to the object returned from the context function. This allows us to read the user's information from within our data sources and resolvers, so we can authorize whether they can access the data.
+1. `ApolloServer` 实例中的 context 函数，它将在你的 API 每次收到一个 GraphQL 操作请求的时候被调用。Context 函数可以访问请求对象（request object），使用请求对象来读 authorization 消息头（header）。
+2. 在 context 函数中鉴权用户。
+3. 一旦用户被鉴权，将用户信息添加到 context 函数的返回对象中。这让我们可以在数据源和 resolver 中读取到用户信息，然后可以判断用户是否有权限访问特定的数据。
 
-Let's open up `src/index.js` and update the `context` function on `ApolloServer` to the code shown below:
+打开 `src/index.js` 文件并更新 `ApolloServer` 中的 `context` 函数：
 
 _src/index.js_
 
@@ -314,22 +314,22 @@ const server = new ApolloServer({
 
     if (!isEmail.validate(email)) return { user: null };
 
-    // find a user by their email
+    // 通过邮箱查找用户
     const users = await store.users.findOrCreate({ where: { email } });
     const user = users && users[0] || null;
 
     return { user: { ...user.dataValues } };
   },
-  // .... with the rest of the server object code below, typeDefs, resolvers, etc....
+  // ....
 ```
 
-Just like in the steps outlined above, we're checking the authorization headers on the request, authenticating the user by looking up their credentials in the database, and attaching the user to the `context`. While we definitely don't advocate using this specific implementation in production since it's not secure, all of the concepts outlined here are transferable to how you'll implement authentication in a real world application.
+在上面的代码中，我们检查了求情的 authorization 消息头，通过在数据库中查找他们的证书（credential）来做鉴权，并把用户信息添加到了 `context`。当然我们并不建议在真实产品中这样用，因为并不安全。这里只是一个大概的步骤。
 
-How do we create the token passed to the `authorization` headers? Let's move on to the next section, so we can write our resolver for the `login` mutation.
+我们怎么穿件一个传入  `authorization` 消息头的 token 呢？让我们继续下一小节，编写 `login` mutation 的 resolver。
 
-## Write Mutation resolvers
+## 编写 mutation resolver
 
-Writing `Mutation` resolvers is similar to the resolvers we've already written. First, let's write the `login` resolver to complete our authentication flow. Add the code below to your resolver map underneath the `Query` resolvers:
+`Mutation` resolver 的编写和我们已经编写的那些是类似的。首先让我们编写一个 `login` resolver 来完成鉴权过程，在 `Query` resolver 中添加以下代码：
 
 _src/resolvers.js_
 
@@ -342,9 +342,9 @@ Mutation: {
 },
 ```
 
-The `login` resolver receives an email address and returns a token if a user exists. In a later section, we'll learn how to save that token on the client.
+`Login` resolver 接受一个邮箱地址作为入参，如果用户存在则返回一个 token。在接下来的章节，我们会雪灾怎么在客户端保存 token。
 
-Now, let's add the resolvers for `bookTrips` and `cancelTrip` to `Mutation`:
+现在，让我们为 `Mutation` 添加两个 resolver：`bookTrips` 和 `cancelTrip`。
 
 _src/resolvers.js_
 
@@ -386,13 +386,13 @@ Mutation: {
 },
 ```
 
-Both `bookTrips` and `cancelTrips` must return the properties specified on our `TripUpdateResponse` type from our schema, which contains a success indicator, a status message, and an array of launches that we've either booked or cancelled. The `bookTrips` mutation can get tricky because we have to account for a partial success where some launches could be booked and some could fail. Right now, we're simply indicating a partial success in the `message` field to keep it simple.
+`BookTrips` 和 `cancelTrips` 都必须返回我们定义在 schema 中的 `TripUpdateResponse` 类型所包含的那些字段，包括 `success` 标示是否成功，`message` 标示状态信息，`launches` 标示我们预定或取消的火箭发射的数组。`BookTrips` mutation 要复杂一点，因为有的发射可以被成功预定，有些可能会失败。现在，我们简单地把部分成功这个状态放在 `message` 字段中。
 
-### Run mutations in the playground
+## 在 playground 中运行 mutation
 
-It's time for the fun part - running our mutations in the playground! Go back to the playground in your browser and reload the schema with the little return arrow at the top on the right of the address line.
+是时候展现真正地技术了，让我们在 playground 中试试刚刚完成的 mutation！回到浏览器的 playground 界面重新加载一下 shcema。
 
-GraphQL mutations are structured exactly like queries, except they use the `mutation` keyword. Let's copy the mutation below and run in the playground:
+GraphQL muation 和 query 的结构一样，除了用 `mutation` 关键字。将下面的 muatation 拷贝到 playground 并运行：
 
 ```graphql
 mutation LoginUser {
@@ -400,9 +400,9 @@ mutation LoginUser {
 }
 ```
 
-You should receive back a string that looks like this: `ZGFpc3lAYXBvbGxvZ3JhcGhxbC5jb20=`. Copy that string because we will need it for the next mutation.
+你应该收到像这样的回应：`ZGFpc3lAYXBvbGxvZ3JhcGhxbC5jb20=`。将这个字符串拷贝下来，待会会用到。
 
-Now, let's try booking some trips. Only authorized users are permitted to book trips, however. Luckily, the playground has a section where we can paste in our authorization header from the previous mutation to authenticate us as a user. First, paste this mutation into the playground:
+现在，让我们试试预定一个旅程。只有鉴权成功的用户才能预定旅程，但幸运的是，playground 有一个区域我们可以自定义消息头，所以我们可以把刚才得到的 token 填进去。将下面的 muation 拷贝到 playground：
 
 ```graphql
 mutation BookTrips {
@@ -416,7 +416,7 @@ mutation BookTrips {
 }
 ```
 
-Next, paste our authorization header into the HTTP Headers box at the bottom:
+接下来，将 `authorization` 消息头拷贝到底部的 HTTP Headers 输入框中：
 
 ```json
 {
@@ -424,4 +424,4 @@ Next, paste our authorization header into the HTTP Headers box at the bottom:
 }
 ```
 
-Then, run the mutation. You should see a success message, along with the ids of the mutations we just booked. Testing mutations manually in the playground is a good way to explore our API, but in a real-world application, we should run automated tests so we can safely refactor our code. In the next section, you'll actually learn about running your graph in production instead of testing your graph.
+接着运行mutation。你应该能看到一条成功的消息，包括我们刚刚预定的班次号。在 playground 手动测试 mutation 是检查你的 API 行为的一种不错的方式，但在真实的产品中，我们应该使用自动化测试来保证我们重构代码时的安全性。在下一个章节，我们将学习在产品中使用 graph 而不仅仅是在 playground 中测试它们。
